@@ -11,7 +11,17 @@ It generates a visual tree of the relevant file hierarchy and appends the conten
 - **Smart Filtering:** Only includes extensions you specify.
 - **Safe:** Read-only mode for source files.
 - **Git Friendly:** Automatically adds the output file to `.gitignore` to prevent accidental commits (unless overridden).
+- **Extension Discovery:** Includes a helper script (`whichextensions.py`) to quickly list all file types present in a project.
 
+## Helper Tool: Discover Extensions
+
+Not sure which extensions are in the project? Use the helper script to list all unique file extensions found in the target folder:
+
+```bash
+python whichextensions.py -path "/path/to/your/project"
+```
+This will output a clean list (e.g., **css**, **html**, **js**), which you can then copy into the main command.
+---
 ## Usage
 
 Run the script from your terminal:

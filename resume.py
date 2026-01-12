@@ -87,7 +87,7 @@ def main():
                 if os.path.abspath(os.path.join(root, file)) != output_path:
                     valid_files_paths.append(os.path.join(root, file))
 
-    tree_output = f"GERARCHIA (Root: {root_path})\n\n.\n" + generate_tree(root_path, extensions)
+    tree_output = f"GERARCHIA (Root: {os.path.basename(root_path)})\n\n.\n" + generate_tree(root_path, extensions)
 
     try:
         with open(output_path, 'w', encoding='utf-8') as out_file:
