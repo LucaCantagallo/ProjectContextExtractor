@@ -4,11 +4,13 @@ import argparse
 def get_args():
     parser = argparse.ArgumentParser(description="Genera un file di testo con l'albero e il contenuto dei file di un progetto.")
     parser.add_argument("-path", required=True, help="Path della root del progetto")
-    parser.add_argument("-extensions", nargs='+', required=True, help="Lista delle estensioni da includere (es. py js html)")
-    parser.add_argument("-track", action="store_true", help="Se usato, NON aggiunge il file di output al .gitignore (permettendone il tracking)")
+    parser.add_argument("-extensions", nargs='*', default=[], help="Lista delle estensioni da includere. Se vuoto, include tutti i file.")
+    parser.add_argument("-track", action="store_true", help="Se usato, NON aggiunge il file di output al .gitignore")
     return parser.parse_args()
 
 def is_valid_file(filename, extensions):
+    if not extensions:
+        return True
     return any(filename.lower().endswith(f".{ext.lower()}") for ext in extensions)
 
 def update_gitignore(root_path, filename):
@@ -63,17 +65,17 @@ def generate_tree(dir_path, extensions, prefix=""):
         connector = "└── " if is_last else "├── "
         tree_str += f"{prefix}{connector}{d_name}/\n"
         
-        extension = "    " if is_last else "│   "
+        extension_line = "    " if is_last else "│   "
         sub_lines = sub_content.splitlines()
         for line in sub_lines:
-            tree_str += f"{prefix}{extension}{line}\n"
+            tree_str += f"{prefix}{extension_line}{line}\n"
 
     return tree_str
 
 def main():
     args = get_args()
     root_path = os.path.abspath(args.path)
-    extensions = [e.lstrip('.') for e in args.extensions]
+    extensions = [e.lstrip('.') for e in args.extensions] if args.extensions else []
     output_filename = "ResumeFolderInFile.txt"
     output_path = os.path.join(root_path, output_filename)
 
